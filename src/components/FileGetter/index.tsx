@@ -1,11 +1,12 @@
-import { useRef, type FormEvent } from "react";
+import { useId, useRef, type FormEvent } from "react";
 import { parkScoreParser } from "../../functions/data-parser";
+import style from "./index.module.scss";
 
 export const FileGetter = () => {
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const id = useId();
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onFileInput = () => {
     if (!fileRef.current) {
       return;
     }
@@ -21,13 +22,18 @@ export const FileGetter = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <>
+      <label htmlFor={id} className={style.fileGetterButton}>
+        파일 넣기
+      </label>
       <input
+        className={style.inputFile}
         type="file"
+        id={id}
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         ref={fileRef}
+        onChange={onFileInput}
       />
-      <button type="submit">Submit</button>
-    </form>
+    </>
   );
 };
