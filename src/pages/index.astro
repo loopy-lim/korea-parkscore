@@ -1,7 +1,19 @@
 ---
 import { FileGetter } from "../components/FileGetter";
+import { ScorePercent } from "../components/ScorePercent";
 import { Title } from "../components/Title";
+import type { Score } from "../dtos/score";
 import Layout from "../layouts/Layout.astro";
+import { useScore } from "../stores/scores";
+
+let scorePercent = useScore.getState().scorePercent;
+
+const subScorePercent = useScore.subscribe(
+  (state) => state.scorePercent,
+  (newScorePercent: Score) => {
+    scorePercent = newScorePercent;
+  }
+);
 ---
 
 <Layout title="한국 도시공원 평가 지수 - ParkScore">
@@ -11,6 +23,7 @@ import Layout from "../layouts/Layout.astro";
       subtitle="Customize the weights of each scoring category"
     />
     <FileGetter client:load />
+    <ScorePercent scorePercent={scorePercent} />
   </main>
 </Layout>
 

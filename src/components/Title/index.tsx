@@ -5,7 +5,7 @@ interface TitleProps {
   subtitle: string;
 }
 
-export function Title({ title, subtitle }: TitleProps) {
+export const Title = ({ title, subtitle }: TitleProps) => {
   return (
     <div className={style.titleWapper}>
       <img className={style.logo} src="/jnu-logo.svg" alt="jnu logo"></img>
@@ -15,4 +15,4 @@ export function Title({ title, subtitle }: TitleProps) {
       </div>
     </div>
   );
-}
+};

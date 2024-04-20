@@ -1,0 +1,23 @@
+.button {
+  display: inline-block;
+  background-color: var(--bg-black);
+  color: var(--bg-white);
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  &.sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+  &.md {
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  &.lg {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}

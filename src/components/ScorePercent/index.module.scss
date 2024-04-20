@@ -1,0 +1,38 @@
+
+.scorePercentWapper {
+  &> * {
+    margin: 1rem 0;
+  }
+}
+
+.scoreWeightTitle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 200;
+  }
+}
+
+.scoreBar {
+  display: flex;
+
+  &.withHeight4 {
+    &>div {
+      height: 2rem;
+    }
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .scoreNumber {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}

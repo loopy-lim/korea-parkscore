@@ -1,8 +1,9 @@
 .fileGetterButton {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background-color: var(--bg-black);
-  color: var(--bg-white);
+  background-color: var(--bg-white);
+  color: var(--bg-black);
+  border: 1px solid var(--bg-black);
   border-radius: 0.25rem;
   cursor: pointer;
   font-size: 0.8rem;

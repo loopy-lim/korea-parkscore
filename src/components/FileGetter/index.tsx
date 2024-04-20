@@ -1,4 +1,4 @@
-import { useId, useRef, type FormEvent } from "react";
+import { useId, useRef } from "react";
 import { parkScoreParser } from "../../functions/data-parser";
 import style from "./index.module.scss";
 
