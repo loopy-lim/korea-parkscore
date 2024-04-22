@@ -2,11 +2,8 @@ import { Score } from "../../dtos/score";
 import { cn, getKeys } from "../../functions/utils";
 import { useScore } from "../../stores/scores";
 import { Button } from "../common/Button";
+import { FileGetter } from "../FileGetter";
 import style from "./index.module.scss";
-
-interface ScorePercentProps {
-  scorePercent: Score;
-}
 
 const colors: Record<keyof Score, string> = {
   access: "#34b233",
@@ -16,8 +13,9 @@ const colors: Record<keyof Score, string> = {
   investment: "#a44dc4",
 };
 
-export const ScorePercent = ({ scorePercent }: ScorePercentProps) => {
+export const ScorePercent = () => {
   const resetScore = useScore((state) => state.resetScore);
+  const scorePercent = useScore((state) => state.scorePercent);
 
   const onReset = () => {
     resetScore();
@@ -27,7 +25,10 @@ export const ScorePercent = ({ scorePercent }: ScorePercentProps) => {
     <div className={style.scorePercentWapper}>
       <div className={style.scoreWeightTitle}>
         <span>PARKSCORE WEIGHT</span>
-        <Button onClick={onReset}>Reset</Button>
+        <div className={style.buttonGroup}>
+          <FileGetter />
+          <Button onClick={onReset}>Reset</Button>
+        </div>
       </div>
       <div className={style.scoreBar}>
         {getKeys(scorePercent).map((key) => (

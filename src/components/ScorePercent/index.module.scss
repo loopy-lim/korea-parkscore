@@ -1,5 +1,7 @@
 
 .scorePercentWapper {
+  margin-left: var(--parkscore-left-width);
+
   &> * {
     margin: 1rem 0;
   }
@@ -14,6 +16,11 @@
   span {
     font-size: 1.5rem;
     font-weight: 200;
+  }
+
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
   }
 }
 

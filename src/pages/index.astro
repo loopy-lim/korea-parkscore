@@ -1,29 +1,19 @@
 ---
-import { FileGetter } from "../components/FileGetter";
 import { ScorePercent } from "../components/ScorePercent";
 import { Title } from "../components/Title";
-import type { Score } from "../dtos/score";
 import Layout from "../layouts/Layout.astro";
-import { useScore } from "../stores/scores";
-
-let scorePercent = useScore.getState().scorePercent;
-
-const subScorePercent = useScore.subscribe(
-  (state) => state.scorePercent,
-  (newScorePercent: Score) => {
-    scorePercent = newScorePercent;
-  }
-);
 ---
 
 <Layout title="한국 도시공원 평가 지수 - ParkScore">
   <main>
-    <Title
-      title="ParkScore Index Custom Rankings"
-      subtitle="Customize the weights of each scoring category"
-    />
-    <FileGetter client:load />
-    <ScorePercent scorePercent={scorePercent} />
+    <div>
+      <Title
+        title="ParkScore Index Custom Rankings"
+        subtitle="Customize the weights of each scoring category"
+      />
+      <ScorePercent client:load />
+    </div>
+    <div class="section"></div>
   </main>
 </Layout>
 
@@ -32,5 +22,27 @@ const subScorePercent = useScore.subscribe(
     --bg-primary: #008231;
     --bg-black: #1c1c1b;
     --bg-white: #ffffff;
+  }
+</style>
+
+<style>
+  :root {
+    --parkscore-left-width: 8rem;
+  }
+  main {
+    display: flex;
+  }
+  main > div {
+    flex: 1;
+    width: clac(100% - 6rem);
+    padding: 3rem;
+  }
+  main > div:nth-child(2) {
+    background-color: #f5f5f5;
+  }
+  @media screen and (max-width: 1200px) {
+    main {
+      display: block;
+    }
   }
 </style>
