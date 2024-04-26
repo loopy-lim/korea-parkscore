@@ -1,3 +1,7 @@
+button {
+  background-color: transparent;
+  border: none;
+}
 
 .scorePercentWapper {
   margin-left: var(--parkscore-left-width);
@@ -11,10 +15,11 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 2rem 0;
 
   span {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 200;
   }
 
@@ -27,19 +32,30 @@
 .scoreBar {
   display: flex;
 
-  &.withHeight4 {
-    &>div {
-      height: 2rem;
-    }
+  .h8 {
+    height: 2rem;
   }
-
+  .weightPer {
+    position: relative;
+  }
   .title {
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
     text-transform: uppercase;
   }
   .scoreNumber {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .scoreSlider {
+    position: absolute;
+    top: 0;
+    right: -1rem;
+    z-index: 2;
+    transform: translateX(-2px);
+
+    img {
+      height: 2.6rem;
+    }
   }
 }
