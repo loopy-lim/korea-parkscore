@@ -56,20 +56,6 @@ export const ScorePercentItem = () => {
 
   return (
     <>
-      <div className={style.scoreBar}>
-        {getKeys(scorePercent).map((key) => (
-          <div
-            key={key}
-            style={{
-              width: `${realScorePercent[key]}px`,
-              color: colors[key],
-            }}
-          >
-            <div className={style.title}>{key}</div>
-            <div className={style.scoreNumber}>{scorePercent[key]}%</div>
-          </div>
-        ))}
-      </div>
       <div ref={scoreBarRef} className={style.scoreBar}>
         {getKeys(scorePercent).map((key, index) => (
           <div
@@ -77,6 +63,17 @@ export const ScorePercentItem = () => {
             key={key}
             style={{ width: `${realScorePercent[key]}px` }}
           >
+            <div
+              key={key}
+              className={style.scoreText}
+              style={{
+                left: Math.min(realScorePercent[key] - 80, 0),
+                color: colors[key],
+              }}
+            >
+              <div className={style.title}>{key}</div>
+              <div className={style.scoreNumber}>{scorePercent[key]}%</div>
+            </div>
             <div
               className={style.h8}
               style={{
