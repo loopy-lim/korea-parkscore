@@ -6,31 +6,42 @@ interface ScoreStore {
   scores: ScoreWithCity[];
   setScores: (by: ScoreWithCity[]) => void;
   scorePercent: Score;
+  realScorePercent: Score;
   setScorePercent: (by: Score) => void;
   resetScore: () => void;
 }
+
+const defaultScore: Score = {
+  access: 20,
+  acreage: 20,
+  amentities: 20,
+  equity: 20,
+  investment: 20,
+};
+
+const clacPercent = (score: Score) => {
+  const sum = Object.values(score).reduce((acc, cur) => acc + cur, 0);
+  return Object.fromEntries(
+    Object.entries(score).map(([key, value]) => [
+      key,
+      Math.round((value / sum) * 100),
+    ])
+  ) as unknown as Score;
+};
 
 export const useScore = create<ScoreStore>()(
   subscribeWithSelector((set) => ({
     scores: [],
     setScores: (by) => set({ scores: by }),
-    scorePercent: {
-      access: 20,
-      acreage: 20,
-      amentities: 20,
-      equity: 20,
-      investment: 20,
+    scorePercent: defaultScore,
+    realScorePercent: defaultScore,
+    setScorePercent: (by) => {
+      set({ realScorePercent: by, scorePercent: clacPercent(by) });
     },
-    setScorePercent: (by) => set({ scorePercent: by }),
     resetScore: () =>
       set({
-        scorePercent: {
-          access: 20,
-          acreage: 20,
-          amentities: 20,
-          equity: 20,
-          investment: 20,
-        },
+        scorePercent: defaultScore,
+        realScorePercent: defaultScore,
       }),
   }))
 );

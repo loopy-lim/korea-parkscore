@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from "react";
+import { useRef, type MouseEvent } from "react";
 import style from "./index.module.scss";
 import type { Score } from "../../dtos/score";
 import { useScore } from "../../stores/scores";
@@ -6,47 +6,41 @@ import { useScore } from "../../stores/scores";
 interface ScorePercentMarkerProps {
   keys: (keyof Score)[];
   index: number;
-  selfWidth: number;
+  draggingMarkId: string;
+  setDraggingMarkId: (value: string) => void;
 }
 
 export const ScorePercentMarker = ({
   keys,
   index,
-  selfWidth,
+  draggingMarkId,
+  setDraggingMarkId,
 }: ScorePercentMarkerProps) => {
-  const [isDragging, setIsDragging] = useState(false);
   const setScorePercent = useScore((state) => state.setScorePercent);
-  const scorePercent = useScore((state) => state.scorePercent);
+  const realScorePercent = useScore((state) => state.realScorePercent);
+  const mouseRef = useRef<number>(0);
 
-  const onPointerDown = () => {
-    setIsDragging(true);
+  const onPointerDown = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const { clientX } = e;
+    mouseRef.current = clientX;
+    setDraggingMarkId(keys[index]);
   };
-  const onPointerUp = () => {
-    setIsDragging(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("pointerup", onPointerUp);
-    return () => {
-      window.removeEventListener("pointerup", onPointerUp);
-    };
-  }, []);
 
   const onSliderMove = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!isDragging) return;
-    const next = scorePercent[keys[index + 1]];
-    const curent = scorePercent[keys[index]];
+    if (draggingMarkId !== keys[index]) return;
+    const next = realScorePercent[keys[index + 1]];
+    const curent = realScorePercent[keys[index]];
+    const delta = e.clientX - mouseRef.current;
+    mouseRef.current = e.clientX;
 
-    console.log(e.screenX, e.pageX, e.clientX, selfWidth);
-
-    const percent = e.movementX;
-    const nextPercent = next - percent;
-    const currentPercent = curent + percent;
+    const nextPercent = next - delta;
+    const currentPercent = curent + delta;
     if (nextPercent < 0 || currentPercent < 0) return;
 
     setScorePercent({
-      ...scorePercent,
+      ...realScorePercent,
       [keys[index]]: currentPercent,
       [keys[index + 1]]: nextPercent,
     });
@@ -57,9 +51,6 @@ export const ScorePercentMarker = ({
       onPointerMove={onSliderMove}
       onPointerDown={onPointerDown}
       className={style.scoreSlider}
-      // style={{
-      //   transform: `translateX(${translate - 2}px)`,
-      // }}
     >
       <img src="marker-slider.svg" alt={`${keys[index]} mark`} />
     </button>

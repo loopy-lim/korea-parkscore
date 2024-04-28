@@ -52,10 +52,15 @@ button {
     top: 0;
     right: -1rem;
     z-index: 2;
-    transform: translateX(-2px);
+    transform: translateX(3.5rem);
+    padding: 0 4rem;
 
     img {
       height: 2.6rem;
+    }
+
+    &:hover {
+      z-index: 3;
     }
   }
 }

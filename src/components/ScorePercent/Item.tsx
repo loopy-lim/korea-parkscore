@@ -15,13 +15,38 @@ const colors: Record<keyof Score, string> = {
 
 export const ScorePercentItem = () => {
   const scorePercent = useScore((state) => state.scorePercent);
+  const realScorePercent = useScore((state) => state.realScorePercent);
+  const setScorePercent = useScore((state) => state.setScorePercent);
   const scoreBarRef = useRef<HTMLDivElement>(null);
   const [selfWidth, setSelfWidth] = useState(1);
+  const [draggingMarkId, setDraggingMarkId] = useState("");
+
+  const onPointerUp = () => {
+    setDraggingMarkId("");
+  };
 
   useEffect(() => {
-    setSelfWidth(scoreBarRef.current?.offsetWidth || 1);
+    window.addEventListener("pointerup", onPointerUp);
+    return () => {
+      window.removeEventListener("pointerup", onPointerUp);
+    };
+  }, []);
+
+  useEffect(() => {
+    const realWidth = () => scoreBarRef.current?.offsetWidth || 100;
+    setScorePercent({
+      access: (realWidth() * scorePercent.access) / 100,
+      acreage: (realWidth() * scorePercent.acreage) / 100,
+      amentities: (realWidth() * scorePercent.amentities) / 100,
+      equity: (realWidth() * scorePercent.equity) / 100,
+      investment: (realWidth() * scorePercent.investment) / 100,
+    });
+  }, [selfWidth]);
+
+  useEffect(() => {
+    setSelfWidth(scoreBarRef.current?.offsetWidth || 100);
     const onResize = () => {
-      setSelfWidth(scoreBarRef.current?.offsetWidth || 1);
+      setSelfWidth(scoreBarRef.current?.offsetWidth || 100);
     };
     window.addEventListener("resize", onResize);
     return () => {
@@ -36,7 +61,7 @@ export const ScorePercentItem = () => {
           <div
             key={key}
             style={{
-              width: `${scorePercent[key]}%`,
+              width: `${realScorePercent[key]}px`,
               color: colors[key],
             }}
           >
@@ -50,7 +75,7 @@ export const ScorePercentItem = () => {
           <div
             className={style.weightPer}
             key={key}
-            style={{ width: `${scorePercent[key]}%` }}
+            style={{ width: `${realScorePercent[key]}px` }}
           >
             <div
               className={style.h8}
@@ -62,7 +87,8 @@ export const ScorePercentItem = () => {
               <ScorePercentMarker
                 keys={getKeys(scorePercent)}
                 index={index}
-                selfWidth={selfWidth}
+                draggingMarkId={draggingMarkId}
+                setDraggingMarkId={setDraggingMarkId}
               />
             )}
           </div>
