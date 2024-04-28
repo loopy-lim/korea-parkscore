@@ -4,6 +4,8 @@ import style from "./index.module.scss";
 import { useScore } from "../../stores/scores";
 import { ScorePercentMarker } from "./marker";
 import { useEffect, useRef, useState } from "react";
+import { FileGetter } from "../FileGetter";
+import { Button } from "../common/Button";
 
 const colors: Record<keyof Score, string> = {
   access: "#34b233",
@@ -23,6 +25,17 @@ export const ScorePercentItem = () => {
 
   const onPointerUp = () => {
     setDraggingMarkId("");
+  };
+
+  const onReset = () => {
+    const realWidth = () => scoreBarRef.current?.offsetWidth || 100;
+    setScorePercent({
+      access: realWidth() / 5,
+      acreage: realWidth() / 5,
+      amentities: realWidth() / 5,
+      equity: realWidth() / 5,
+      investment: realWidth() / 5,
+    });
   };
 
   useEffect(() => {
@@ -56,6 +69,13 @@ export const ScorePercentItem = () => {
 
   return (
     <>
+      <div className={style.scoreWeightTitle}>
+        <span>PARKSCORE WEIGHT</span>
+        <div className={style.buttonGroup}>
+          <FileGetter />
+          <Button onClick={onReset}>Reset</Button>
+        </div>
+      </div>
       <div ref={scoreBarRef} className={style.scoreBar}>
         {getKeys(scorePercent).map((key, index) => (
           <div
