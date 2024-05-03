@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { Score, ScoreWithCity } from "../dtos/score";
 import { subscribeWithSelector } from "zustand/middleware";
+import { defaultScores } from "../constants/scores";
 
 interface ScoreStore {
   scores: ScoreWithCity[];
@@ -31,7 +32,7 @@ const clacPercent = (score: Score) => {
 
 export const useScore = create<ScoreStore>()(
   subscribeWithSelector((set) => ({
-    scores: [],
+    scores: defaultScores,
     setScores: (by) => set({ scores: by }),
     scorePercent: defaultScore,
     realScorePercent: defaultScore,

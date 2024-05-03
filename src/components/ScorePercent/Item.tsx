@@ -1,4 +1,3 @@
-import type { Score } from "../../dtos/score";
 import { getKeys } from "../../functions/utils";
 import style from "./index.module.scss";
 import { useScore } from "../../stores/scores";
@@ -6,14 +5,7 @@ import { ScorePercentMarker } from "./marker";
 import { useEffect, useRef, useState } from "react";
 import { FileGetter } from "../FileGetter";
 import { Button } from "../common/Button";
-
-const colors: Record<keyof Score, string> = {
-  access: "#34b233",
-  acreage: "#bed600",
-  amentities: "#0073cf",
-  equity: "#009fda",
-  investment: "#a44dc4",
-};
+import { scoreColors } from "../../constants/color";
 
 export const ScorePercentItem = () => {
   const scorePercent = useScore((state) => state.scorePercent);
@@ -22,13 +14,13 @@ export const ScorePercentItem = () => {
   const scoreBarRef = useRef<HTMLDivElement>(null);
   const [selfWidth, setSelfWidth] = useState(1);
   const [draggingMarkId, setDraggingMarkId] = useState("");
+  const realWidth = () => scoreBarRef.current?.offsetWidth || 100;
 
   const onPointerUp = () => {
     setDraggingMarkId("");
   };
 
   const onReset = () => {
-    const realWidth = () => scoreBarRef.current?.offsetWidth || 100;
     setScorePercent({
       access: realWidth() / 5,
       acreage: realWidth() / 5,
@@ -46,7 +38,6 @@ export const ScorePercentItem = () => {
   }, []);
 
   useEffect(() => {
-    const realWidth = () => scoreBarRef.current?.offsetWidth || 100;
     setScorePercent({
       access: (realWidth() * scorePercent.access) / 100,
       acreage: (realWidth() * scorePercent.acreage) / 100,
@@ -57,9 +48,9 @@ export const ScorePercentItem = () => {
   }, [selfWidth]);
 
   useEffect(() => {
-    setSelfWidth(scoreBarRef.current?.offsetWidth || 100);
+    setSelfWidth(realWidth);
     const onResize = () => {
-      setSelfWidth(scoreBarRef.current?.offsetWidth || 100);
+      setSelfWidth(realWidth);
     };
     window.addEventListener("resize", onResize);
     return () => {
@@ -84,11 +75,11 @@ export const ScorePercentItem = () => {
             style={{ width: `${realScorePercent[key]}px` }}
           >
             <div
-              key={key}
               className={style.scoreText}
               style={{
-                left: Math.min(realScorePercent[key] - 80, 0),
-                color: colors[key],
+                left: Math.min(realScorePercent[key] - 85, 0),
+                right: Math.max(realScorePercent[key] - 85, 0),
+                color: scoreColors[key],
               }}
             >
               <div className={style.title}>{key}</div>
@@ -97,7 +88,7 @@ export const ScorePercentItem = () => {
             <div
               className={style.h8}
               style={{
-                backgroundColor: colors[key],
+                backgroundColor: scoreColors[key],
               }}
             ></div>
             {index !== getKeys(scorePercent).length - 1 && (

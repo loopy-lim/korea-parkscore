@@ -1,9 +1,11 @@
 import { useId, useRef } from "react";
 import { parkScoreParser } from "../../functions/data-parser";
 import style from "./index.module.scss";
+import { useScore } from "../../stores/scores";
 
 export const FileGetter = () => {
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const setScore = useScore((state) => state.setScores);
   const id = useId();
 
   const onFileInput = () => {
@@ -17,6 +19,7 @@ export const FileGetter = () => {
         return;
       }
       const data = parkScoreParser({ blob: buffer });
+      setScore(data);
     };
     fileRef.current.files && reader.readAsArrayBuffer(fileRef.current.files[0]);
   };
