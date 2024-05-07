@@ -1,13 +1,13 @@
 import * as xlsx from "xlsx";
-import { Score, ScoreWithCity } from "../dtos/score";
+import { ScoreWithCity, type Score } from "../dtos/score";
 
 interface ParkScoreBuffer {
   blob: ArrayBuffer | string;
 }
 
-interface ParkScore extends Score {
+type ParkScore = Score & {
   city: string;
-}
+};
 
 export function parkScoreParser({ blob }: ParkScoreBuffer) {
   const data = xlsx.read(blob);

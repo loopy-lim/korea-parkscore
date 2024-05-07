@@ -4,8 +4,8 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { defaultScores } from "../constants/scores";
 
 interface ScoreStore {
-  scores: ScoreWithCity[];
-  setScores: (by: ScoreWithCity[]) => void;
+  scores: Array<ScoreWithCity>;
+  setScores: (by: Array<ScoreWithCity>) => void;
   scorePercent: Score;
   realScorePercent: Score;
   setScorePercent: (by: Score) => void;
@@ -26,7 +26,7 @@ const clacPercent = (score: Score) => {
     Object.entries(score).map(([key, value]) => [
       key,
       Math.round((value / sum) * 100),
-    ])
+    ]),
   ) as unknown as Score;
 };
 
@@ -44,5 +44,5 @@ export const useScore = create<ScoreStore>()(
         scorePercent: defaultScore,
         realScorePercent: defaultScore,
       }),
-  }))
+  })),
 );
