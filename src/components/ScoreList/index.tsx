@@ -10,48 +10,68 @@ const drawHeight = 15;
 const leftPadding = 8 * 16;
 
 export const ScoreList = () => {
-	const scores = useScore((state) => state.scores);
-	const realScorePercent = useScore((state) => state.realScorePercent);
-	const wapperRef = useRef<HTMLDivElement | null>(null);
+  const scores = useScore((state) => state.scores);
+  const scorePercent = useScore((state) => state.scorePercent);
+  const wapperRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		const chart = d3
-			.select(wapperRef.current)
-			.append("svg")
-			.attr("width", wapperRef.current?.clientWidth || 0)
-			.attr("height", Math.min(scores.length, maxListRow) * lineHight)
-			.attr("viewBox", [
-				0,
-				0,
-				wapperRef.current?.clientWidth || 0,
-				Math.min(scores.length, maxListRow) * lineHight,
-			])
-			.attr("style", "max-width:100%; height:auto;");
+  const maxScore = scores.reduce((acc, cur) => {
+    const curMax = Object.values(cur.score).reduce((acc, cur) => cur + acc, 0);
+    return acc > curMax ? acc : curMax;
+  }, 0);
 
-		const scoreKeys = getKeys(scores[0].score) as string[];
-		const layers = d3.stack().keys(scoreKeys)(
-			scores.map<{ [key: string]: number }>((score) => score.score),
-		);
+  useEffect(() => {
+    const chart = d3
+      .select(wapperRef.current)
+      .append("svg")
+      .attr("width", wapperRef.current?.clientWidth || 0)
+      .attr("height", Math.min(scores.length, maxListRow) * lineHight)
+      .attr("viewBox", [
+        0,
+        0,
+        wapperRef.current?.clientWidth || 0,
+        Math.min(scores.length, maxListRow) * lineHight,
+      ])
+      .attr("style", "max-width:100%; height:auto;");
 
-		chart
-			.append("g")
-			.selectAll("g")
-			.data(layers)
-			.enter()
-			.append("g")
-			.attr("fill", (_, i) => scoreColors[scoreKeys[i]]) //  row
-			.selectAll("rect")
-			.data((d) => d)
-			.join("rect")
-			.attr("x", (d) => d[0] + leftPadding)
-			.attr("y", (_, i) => i * lineHight)
-			.attr("height", drawHeight)
-			.attr("width", (d) => d[1] - d[0]);
+    const scoreKeys = getKeys(scores[0].score) as string[];
+    const layers = d3.stack().keys(scoreKeys)(
+      scores.map((score) => {
+        const maxWidth = (wapperRef.current?.clientWidth || 0) - leftPadding;
+        return scoreKeys.reduce((cur, key) => {
+          const width =
+            ((score.score[key] / maxScore) * maxWidth * scorePercent[key]) / 20;
+          cur[key] = Math.round(width);
+          return cur;
+        }, {} as Record<string, number>);
+      })
+    );
 
-		return () => {
-			chart.remove();
-		};
-	}, []);
+    chart
+      .append("g")
+      .selectAll("g")
+      .data(layers)
+      .enter()
+      .append("g")
+      .attr("fill", (_, i) => scoreColors[scoreKeys[i]]) //  row
+      .selectAll("rect")
+      .data((d) => d)
+      .join(
+        (enter) =>
+          enter
+            .append("rect")
+            .attr("x", (d) => d[0] + leftPadding)
+            .attr("y", (_, i) => i * lineHight)
+            .attr("height", drawHeight)
+            .attr("width", (d) => d[1] - d[0]),
+        (update) => update.attr("x", (d) => d[0] + leftPadding),
+        (exit) => exit.remove()
+      )
+      .transition();
 
-	return <div ref={wapperRef}></div>;
+    return () => {
+      chart.remove();
+    };
+  }, [scores, scorePercent]);
+
+  return <div ref={wapperRef}></div>;
 };

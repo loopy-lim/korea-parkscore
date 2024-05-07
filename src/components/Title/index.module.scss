@@ -17,4 +17,9 @@
 .logo {
   width: calc(var(--parkscore-left-width) - 1rem);
   height: calc(var(--parkscore-left-width) - 1rem);
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
 }
+
