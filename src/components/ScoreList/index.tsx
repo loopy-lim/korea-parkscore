@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useScore } from "../../stores/scores";
 import * as d3 from "d3";
+import style from "./index.module.scss";
 import { scoreColors } from "../../constants/color";
 import { maxListRow } from "../../constants/scores";
-import { getKeys } from "../../functions/utils";
+import { cn, getKeys } from "../../functions/utils";
 
-const lineHight = 30;
-const drawHeight = 15;
+const lineHight = 40;
+const drawHeight = 20;
 const leftPadding = 8 * 16;
 
 export const ScoreList = () => {
@@ -18,6 +19,7 @@ export const ScoreList = () => {
     const curMax = Object.values(cur.score).reduce((acc, cur) => cur + acc, 0);
     return acc > curMax ? acc : curMax;
   }, 0);
+  const cities = scores.map((score) => score.city);
 
   useEffect(() => {
     const chart = d3
@@ -67,6 +69,18 @@ export const ScoreList = () => {
         (exit) => exit.remove()
       )
       .transition();
+
+    const yAxis = d3.axisLeft(
+      d3
+        .scaleBand()
+        .domain(cities)
+        .range([0, Math.min(scores.length, maxListRow) * lineHight])
+    );
+
+    chart
+      .append("g")
+      .attr("class", cn(style.bcYAxis, style.bcAxis))
+      .call(yAxis);
 
     return () => {
       chart.remove();

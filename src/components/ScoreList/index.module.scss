@@ -1,0 +1,16 @@
+.bcYAxis path,
+.bcYAxis line,
+.bcYAxis {
+    fill: transparent;
+    color: transparent;
+}
+
+.bcYAxis {
+  transform: translate(8rem, -8px);
+}
+
+.bcAxis text {
+  font-family: sans-serif;
+  font-size: 1rem;
+  fill: #888;
+}
