@@ -24,7 +24,7 @@ export const ScorePercentMarker = ({
     e.preventDefault();
     const { clientX } = e;
     mouseRef.current = clientX;
-    setDraggingMarkId(keys[index]);
+    setDraggingMarkId(keys[index] as string);
   };
 
   const onSliderMove = (e: MouseEvent<HTMLButtonElement>) => {

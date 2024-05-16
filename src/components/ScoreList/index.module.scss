@@ -1,16 +1,28 @@
 .bcYAxis path,
 .bcYAxis line,
 .bcYAxis {
-    fill: transparent;
-    color: transparent;
+  fill: transparent;
+  color: transparent;
 }
 
 .bcYAxis {
-  transform: translate(8rem, -8px);
+  transform: translate(6rem, -8px);
 }
 
 .bcAxis text {
   font-family: sans-serif;
   font-size: 1rem;
-  fill: #888;
+  fill: #4a4a4a;
+}
+
+.nonSelected {
+  opacity: 0.5;
+}
+
+.bcRankingYAxis {
+  transform: translate(1.4rem);
+
+  text {
+    font-size: 0.8rem;
+  }
 }
