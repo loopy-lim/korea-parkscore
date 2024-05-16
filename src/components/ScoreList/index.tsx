@@ -15,6 +15,7 @@ export const ScoreList = () => {
   const scorePercent = useScore((state) => state.scorePercent);
   const wapperRef = useRef<HTMLDivElement | null>(null);
   const [selectedCityIndex, setSelectedCityIndex] = useState(0);
+  const [hoverCityIndex, setHoverCityIndex] = useState(-1);
 
   const maxScore = scores.reduce((acc, cur) => {
     const curMax = Object.values(cur.score).reduce((acc, cur) => cur + acc, 0);
@@ -69,8 +70,21 @@ export const ScoreList = () => {
             .attr("height", drawHeight)
             .attr("width", (d) => d[1] - d[0])
             .attr("class", (_, i) =>
-              i === selectedCityIndex ? "" : style.nonSelected
-            ),
+              cn(
+                `${i}` === `${selectedCityIndex}` ? "" : style.nonSelected,
+                `${i}` === `${hoverCityIndex}` ? style.hover : ""
+              )
+            )
+            .attr("data-index", (_, i) => i)
+            .on("click", (e) => {
+              setSelectedCityIndex(e.target.getAttribute("data-index"));
+            })
+            .on("mouseover", (e) => {
+              setHoverCityIndex(e.target.getAttribute("data-index"));
+            })
+            .on("mouseout", () => {
+              setHoverCityIndex(-1);
+            }),
         (update) => update.attr("x", (d) => d[0] + leftPadding),
         (exit) => exit.remove()
       )
@@ -101,7 +115,9 @@ export const ScoreList = () => {
       .attr("cx", leftPadding - 20)
       .attr("cy", (_, i) => i * lineHight + 10)
       .attr("r", 8)
-      .attr("fill", (_, i) => (i === selectedCityIndex ? "black" : "#eeeeee"))
+      .attr("fill", (_, i) =>
+        `${i}` === `${selectedCityIndex}` ? "black" : "#eeeeee"
+      )
       .transition();
     // append score number
     d3.select("svg")
@@ -115,14 +131,16 @@ export const ScoreList = () => {
       .attr("font-size", "12px")
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
-      .attr("fill", (_, i) => (i === selectedCityIndex ? "white" : "#4a4a4a"))
+      .attr("fill", (_, i) =>
+        `${i}` === `${selectedCityIndex}` ? "white" : "#4a4a4a"
+      )
       .text((_, i) => i + 1)
       .transition();
 
     return () => {
       chart.remove();
     };
-  }, [scores, scorePercent]);
+  }, [scores, scorePercent, selectedCityIndex, hoverCityIndex]);
 
   return <div ref={wapperRef}></div>;
 };
