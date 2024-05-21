@@ -1,5 +1,4 @@
 import { getKeys } from "../../functions/utils";
-import style from "./index.module.scss";
 import { useScore } from "../../stores/scores";
 import { ScorePercentMarker } from "./marker";
 import { useEffect, useRef, useState } from "react";
@@ -60,33 +59,33 @@ export const ScorePercentItem = () => {
 
   return (
     <>
-      <div className={style.scoreWeightTitle}>
-        <span>PARKSCORE WEIGHT</span>
-        <div className={style.buttonGroup}>
+      <div className="w-full flex justify-between items-center mx-8">
+        <span className="text-lg font-light">PARKSCORE WEIGHT</span>
+        <div className="flex gap-4">
           <FileGetter />
           <Button onClick={onReset}>Reset</Button>
         </div>
       </div>
-      <div ref={scoreBarRef} className={style.scoreBar}>
+      <div ref={scoreBarRef} className="flex py-10">
         {getKeys(scorePercent).map((key, index) => (
           <div
-            className={style.weightPer}
             key={key}
+            className="relative mt-4"
             style={{ width: `${realScorePercent[key]}px` }}
           >
             <div
-              className={style.scoreText}
+              className="absolute -top-12 w-[80px]"
               style={{
                 left: Math.min(realScorePercent[key] - 85, 0),
                 right: Math.max(realScorePercent[key] - 85, 0),
                 color: scoreColors[key],
               }}
             >
-              <div className={style.title}>{key}</div>
-              <div className={style.scoreNumber}>{scorePercent[key]}%</div>
+              <div className="font-semibold text-sm uppercase">{key}</div>
+              <div className="text-xl font-bold">{scorePercent[key]}%</div>
             </div>
             <div
-              className={style.h8}
+              className="h-8"
               style={{
                 backgroundColor: scoreColors[key],
               }}

@@ -1,4 +1,5 @@
 ---
+import { CityStatus } from "../components/CityStatus";
 import { ScoreList } from "../components/ScoreList";
 import { ScorePercent } from "../components/ScorePercent";
 import { Title } from "../components/Title";
@@ -15,7 +16,9 @@ import Layout from "../layouts/Layout.astro";
       <ScorePercent client:load />
       <ScoreList client:load />
     </div>
-    <div class="section"></div>
+    <div class="section">
+      <CityStatus client:load />
+    </div>
   </main>
 </Layout>
 

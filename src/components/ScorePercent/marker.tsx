@@ -50,9 +50,13 @@ export const ScorePercentMarker = ({
     <button
       onPointerMove={onSliderMove}
       onPointerDown={onPointerDown}
-      className={style.scoreSlider}
+      className="absolute top-0 right-0 z-[2] translate-x-[7px] hover:z-[3] hover:translate-x-[70px] hover:px-16"
     >
-      <img src="marker-slider.svg" alt={`${keys[index]} mark`} />
+      <img
+        className="h-[2.6rem]"
+        src="marker-slider.svg"
+        alt={`${keys[index]} mark`}
+      />
     </button>
   );
 };

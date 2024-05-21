@@ -10,6 +10,8 @@ interface ScoreStore {
   realScorePercent: Score;
   setScorePercent: (by: Score) => void;
   resetScore: () => void;
+  selectedCityIndex: number;
+  setSelectedCityIndex: (by: number) => void;
 }
 
 const defaultScore: Score = {
@@ -26,7 +28,7 @@ const clacPercent = (score: Score) => {
     Object.entries(score).map(([key, value]) => [
       key,
       Math.round((value / sum) * 100),
-    ]),
+    ])
   ) as unknown as Score;
 };
 
@@ -44,5 +46,7 @@ export const useScore = create<ScoreStore>()(
         scorePercent: defaultScore,
         realScorePercent: defaultScore,
       }),
-  })),
+    selectedCityIndex: 0,
+    setSelectedCityIndex: (by) => set({ selectedCityIndex: by }),
+  }))
 );

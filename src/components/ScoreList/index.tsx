@@ -14,7 +14,8 @@ export const ScoreList = () => {
   const scores = useScore((state) => state.scores);
   const scorePercent = useScore((state) => state.scorePercent);
   const wapperRef = useRef<HTMLDivElement | null>(null);
-  const [selectedCityIndex, setSelectedCityIndex] = useState(0);
+  const selectedCityIndex = useScore((state) => state.selectedCityIndex);
+  const setSelectedCityIndex = useScore((state) => state.setSelectedCityIndex);
   const [hoverCityIndex, setHoverCityIndex] = useState(-1);
 
   const maxScore = scores.reduce((acc, cur) => {
