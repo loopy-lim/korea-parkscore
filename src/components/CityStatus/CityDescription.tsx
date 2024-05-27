@@ -29,8 +29,8 @@ export const CityDescription = ({
           <div className="flex flex-col items-center">
             <h2 className="text-xl font-bold text-gray-400">RANKING</h2>
             <h3 className="font-extrabold flex justify-start">
-              <span className="text-3xl">{rank + 1}</span>
-              <span className="text-xl">{nth(rank + 1)}</span>
+              <span className="text-3xl">{+rank + 1}</span>
+              <span className="text-xl">{nth(+rank + 1)}</span>
             </h3>
           </div>
         </div>

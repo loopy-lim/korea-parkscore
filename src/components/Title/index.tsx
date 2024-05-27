@@ -7,11 +7,15 @@ interface TitleProps {
 
 export const Title = ({ title, subtitle }: TitleProps) => {
   return (
-    <div className={style.titleWapper}>
-      <img className={style.logo} src="/jnu-logo.svg" alt="jnu logo"></img>
+    <div className="flex gap-4 my-8">
+      <img
+        className={style.logo}
+        src="/team-logo.png"
+        alt="green park score logo"
+      ></img>
       <div>
-        <h1 className={style.title}>{title}</h1>
-        <h2 className={style.subtitle}>{subtitle}</h2>
+        <h1 className="font-bold text-3xl">{title}</h1>
+        <h2 className="font-light text-xl">{subtitle}</h2>
       </div>
     </div>
   );

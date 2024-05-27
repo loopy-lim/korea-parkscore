@@ -7,7 +7,7 @@ import { maxListRow } from "../../constants/scores";
 import { cn, getKeys } from "../../functions/utils";
 
 const lineHight = 40;
-const drawHeight = 20;
+const drawHeight = 25;
 const leftPadding = 8 * 16;
 
 export const ScoreList = () => {
@@ -114,8 +114,8 @@ export const ScoreList = () => {
       .enter()
       .append("circle")
       .attr("cx", leftPadding - 20)
-      .attr("cy", (_, i) => i * lineHight + 10)
-      .attr("r", 8)
+      .attr("cy", (_, i) => i * lineHight + 12)
+      .attr("r", 12)
       .attr("fill", (_, i) =>
         `${i}` === `${selectedCityIndex}` ? "black" : "#eeeeee"
       )
@@ -129,7 +129,7 @@ export const ScoreList = () => {
       .append("text")
       .attr("x", leftPadding - 20)
       .attr("y", (_, i) => i * lineHight + 12)
-      .attr("font-size", "12px")
+      .attr("font-size", "16px")
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
       .attr("fill", (_, i) =>

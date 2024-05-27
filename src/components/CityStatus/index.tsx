@@ -1,5 +1,6 @@
 import { useScore } from "../../stores/scores";
 import { CityDescription } from "./CityDescription";
+import { DetailScores } from "./DetailScores";
 
 export const CityStatus = () => {
   const selectedCityIndex = useScore((state) => state.selectedCityIndex);
@@ -11,6 +12,7 @@ export const CityStatus = () => {
         selectedCityScore={scores[selectedCityIndex]}
         rank={selectedCityIndex}
       />
+      <DetailScores scores={scores[selectedCityIndex].score} />
     </>
   );
 };
