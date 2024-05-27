@@ -2,9 +2,7 @@ import type { ScoreWithCity } from "../../dtos/score";
 import { nth } from "../../functions/utils";
 import { CitySearch } from "./CitySearch";
 
-const tempText = `
-국가는 여자의 복지와 권익의 향상을 위하여 노력하여야 한다. 비상계엄이 선포된 때에는 법률이 정하는 바에 의하여 영장제도, 언론·출판·집회·결사의 자유, 정부나 법원의 권한에 관하여 특별한 조치를 할 수 있다.
-재판의 심리와 판결은 공개한다. 다만, 심리는 국가의 안전보장 또는 안녕질서를 방해하거나 선량한 풍속을 해할 염려가 있을 때에는 법원의 결정으로 공개하지 아니할 수 있다.`;
+const tempText = `아래의 검색창을 통해 지역의 순위와 접근, 면적, 투자, 공평, 시설 지표의 점수를 확인할 수 있습니다`;
 
 interface CityDescriptionProps {
   selectedCityScore: ScoreWithCity;
@@ -34,7 +32,7 @@ export const CityDescription = ({
             </h3>
           </div>
         </div>
-        <div className="text-sm text-gray-500">{tempText}</div>
+        <div className="text-lg py-4">{tempText}</div>
         <CitySearch />
       </div>
     </div>

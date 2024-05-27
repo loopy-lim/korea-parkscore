@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { FileGetter } from "../FileGetter";
 import { Button } from "../common/Button";
 import { scoreColors } from "../../constants/color";
+import { scoreNames } from "../../constants/scores";
 
 export const ScorePercentItem = () => {
   const scorePercent = useScore((state) => state.scorePercent);
@@ -81,7 +82,9 @@ export const ScorePercentItem = () => {
                 color: scoreColors[key],
               }}
             >
-              <div className="font-semibold text-sm uppercase">{key}</div>
+              <div className="font-semibold text-sm uppercase">
+                {scoreNames[key]}
+              </div>
               <div className="text-xl font-bold">{scorePercent[key]}%</div>
             </div>
             <div
