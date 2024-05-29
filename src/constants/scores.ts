@@ -12,7 +12,7 @@ export const scoreNames: Record<keyof Score, string> = {
 
 export const defaultScores: Array<ScoreWithCity> = [
   {
-    city: "서울",
+    city: "서울특별시",
     score: {
       access: 100,
       acreage: 100,

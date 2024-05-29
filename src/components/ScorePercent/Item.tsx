@@ -6,6 +6,8 @@ import { FileGetter } from "../FileGetter";
 import { Button } from "../common/Button";
 import { scoreColors } from "../../constants/color";
 import { scoreNames } from "../../constants/scores";
+import { TooltipWithIcon } from "../Tooltip";
+import { scoreWeight } from "../../constants/description";
 
 export const ScorePercentItem = () => {
   const scorePercent = useScore((state) => state.scorePercent);
@@ -61,7 +63,12 @@ export const ScorePercentItem = () => {
   return (
     <>
       <div className="w-full flex justify-between items-center mx-8">
-        <span className="text-lg font-light">PARKSCORE WEIGHT</span>
+        <div className="flex items-center gap-2">
+          <span className="text-lg">PARKSCORE WEIGHT</span>
+          <TooltipWithIcon className="w-80 bg-[#F4F4F4] shadow-none translate-x-36">
+            {scoreWeight}
+          </TooltipWithIcon>
+        </div>
         <div className="flex gap-4">
           <FileGetter />
           <Button onClick={onReset}>Reset</Button>

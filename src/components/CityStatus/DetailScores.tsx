@@ -3,6 +3,8 @@ import { scoreColors } from "../../constants/color";
 import type { Score } from "../../dtos/score";
 import { getKeys } from "../../functions/utils";
 import { scoreNames } from "../../constants/scores";
+import { TooltipWithIcon } from "../Tooltip";
+import { scoreDescription } from "../../constants/description";
 
 interface DetailScoresProps {
   scores: Score;
@@ -38,10 +40,15 @@ export const DetailScores = ({ scores }: DetailScoresProps) => {
               color: scoreColors[key],
             }}
           >
-            <div className="text-lg font-semibold">{scoreNames[key]}</div>
+            <div className="text-lg font-semibold flex gap-2 w-32">
+              {scoreNames[key]}
+              <TooltipWithIcon className="w-48 bg-[#E2E2E2] shadow-none translate-x-28 translate-y-16">
+                <div className="text-black">{scoreDescription[key]}</div>
+              </TooltipWithIcon>
+            </div>
             <div className="text-3xl font-bold">{scores[key]}</div>
           </div>
-          <div className="w-4"></div>
+          <div className="w-8"></div>
           <div className="flex-1">
             <div
               className="h-6 rounded-full"
