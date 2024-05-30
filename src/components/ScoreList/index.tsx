@@ -3,20 +3,23 @@ import { useScore } from "../../stores/scores";
 import * as d3 from "d3";
 import style from "./index.module.scss";
 import { scoreColors } from "../../constants/color";
-import { maxListRow } from "../../constants/scores";
-import { cn, getKeys } from "../../functions/utils";
+import { cn, getKeys, getValues, sum } from "../../functions/utils";
+import { MAX_LIST_ROW } from "../../constants/scores";
+import { clacScores } from "../../functions/scores";
+import type { Score } from "../../dtos/score";
 
 const lineHight = 40;
 const drawHeight = 25;
 const leftPadding = 8 * 16;
 
 export const ScoreList = () => {
-  const scores = useScore((state) => state.scores);
+  const realScores = useScore((state) => state.realScores);
   const scorePercent = useScore((state) => state.scorePercent);
   const wapperRef = useRef<HTMLDivElement | null>(null);
   const selectedCityIndex = useScore((state) => state.selectedCityIndex);
   const setSelectedCityIndex = useScore((state) => state.setSelectedCityIndex);
   const [hoverCityIndex, setHoverCityIndex] = useState(-1);
+  const scores = clacScores(realScores, scorePercent);
 
   const maxScore = scores.reduce((acc, cur) => {
     const curMax = Object.values(cur.score).reduce((acc, cur) => cur + acc, 0);
@@ -29,12 +32,12 @@ export const ScoreList = () => {
       .select(wapperRef.current)
       .append("svg")
       .attr("width", wapperRef.current?.clientWidth || 0)
-      .attr("height", Math.min(scores.length, maxListRow) * lineHight)
+      .attr("height", Math.min(scores.length, MAX_LIST_ROW) * lineHight)
       .attr("viewBox", [
         0,
         0,
         wapperRef.current?.clientWidth || 0,
-        Math.min(scores.length, maxListRow) * lineHight,
+        Math.min(scores.length, MAX_LIST_ROW) * lineHight,
       ])
       .attr("style", "max-width:100%; height:auto;");
 
@@ -44,14 +47,12 @@ export const ScoreList = () => {
         .map((score) => {
           const maxWidth = (wapperRef.current?.clientWidth || 0) - leftPadding;
           return scoreKeys.reduce((cur, key) => {
-            const width =
-              ((score.score[key] / maxScore) * maxWidth * scorePercent[key]) /
-              20;
+            const width = (score.score[key] / maxScore) * maxWidth;
             cur[key] = Math.round(width);
             return cur;
-          }, {} as Record<string, number>);
+          }, {} as Score);
         })
-        .sort((a, b) => b.score - a.score)
+        .sort((a, b) => sum(getValues(b)) - sum(getValues(a)))
     );
 
     chart
@@ -59,7 +60,7 @@ export const ScoreList = () => {
       .data(layers)
       .enter()
       .append("g")
-      .attr("fill", (_, i) => scoreColors[scoreKeys[i]]) //  row
+      .attr("fill", (_, i) => scoreColors[scoreKeys[i]])
       .selectAll("rect")
       .data((d) => d)
       .join(
@@ -95,7 +96,7 @@ export const ScoreList = () => {
       d3
         .scaleBand()
         .domain(cities)
-        .range([0, Math.min(scores.length, maxListRow) * lineHight])
+        .range([0, Math.min(scores.length, MAX_LIST_ROW) * lineHight])
     );
 
     // append city name
@@ -120,6 +121,7 @@ export const ScoreList = () => {
         `${i}` === `${selectedCityIndex}` ? "black" : "#eeeeee"
       )
       .transition();
+
     // append score number
     d3.select("svg")
       .append("g")
@@ -141,7 +143,7 @@ export const ScoreList = () => {
     return () => {
       chart.remove();
     };
-  }, [scores, scorePercent, selectedCityIndex, hoverCityIndex]);
+  }, [scores, realScores, scorePercent, selectedCityIndex, hoverCityIndex]);
 
   return <div ref={wapperRef}></div>;
 };

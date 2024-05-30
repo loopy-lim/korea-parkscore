@@ -1,4 +1,4 @@
-import { useId, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { parkScoreParser } from "../../functions/data-parser";
 import style from "./index.module.scss";
 import { useScore } from "../../stores/scores";
@@ -23,6 +23,34 @@ export const FileGetter = () => {
     };
     fileRef.current.files && reader.readAsArrayBuffer(fileRef.current.files[0]);
   };
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    fetch("/parkscore_data.xlsx", { signal: abortController.signal }).then(
+      (res) => {
+        if (res.ok) {
+          res.blob().then((blob) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const buffer = e.target?.result;
+              if (!buffer) {
+                return;
+              }
+              const data = parkScoreParser({ blob: buffer });
+              setScore(data);
+            };
+            reader.readAsArrayBuffer(blob);
+          });
+        } else {
+          console.error("파일을 불러오는데 실패했습니다.");
+        }
+      }
+    );
+
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   return (
     <>

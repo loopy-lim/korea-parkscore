@@ -1,21 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { scoreColors } from "../../constants/color";
-import type { Score } from "../../dtos/score";
 import { getKeys } from "../../functions/utils";
 import { scoreNames } from "../../constants/scores";
 import { TooltipWithIcon } from "../Tooltip";
 import { scoreDescription } from "../../constants/description";
-
-interface DetailScoresProps {
-  scores: Score;
-}
+import { useScore } from "../../stores/scores";
 
 const textWidth = 10 * 8;
 const textPadding = 1 * 16;
 
-export const DetailScores = ({ scores }: DetailScoresProps) => {
+export const DetailScores = () => {
   const ref = useRef<HTMLUListElement>(null);
   const [width, setWidth] = useState(100);
+  const scoreIndex = useScore((state) => state.selectedCityIndex);
+  const realScores = useScore((state) => state.realScores)[scoreIndex].score;
 
   const onResize = () => {
     if (ref.current) {
@@ -32,7 +30,7 @@ export const DetailScores = ({ scores }: DetailScoresProps) => {
   return (
     <ul className="flex flex-col gap-4 my-12" ref={ref}>
       <div className="uppercase font-bold text-3xl">scores</div>
-      {getKeys(scores).map((key) => (
+      {getKeys(realScores).map((key) => (
         <li className="flex justify-center items-center" key={key}>
           <div
             className="w-16 pr-4"
@@ -46,7 +44,7 @@ export const DetailScores = ({ scores }: DetailScoresProps) => {
                 <div className="text-black">{scoreDescription[key]}</div>
               </TooltipWithIcon>
             </div>
-            <div className="text-3xl font-bold">{scores[key]}</div>
+            <div className="text-3xl font-bold">{realScores[key]}</div>
           </div>
           <div className="w-8"></div>
           <div className="flex-1">
@@ -54,7 +52,7 @@ export const DetailScores = ({ scores }: DetailScoresProps) => {
               className="h-6 rounded-full"
               style={{
                 backgroundColor: scoreColors[key],
-                width: `${(width * scores[key]) / 100}px`,
+                width: `${(width * realScores[key]) / 100}px`,
               }}
             ></div>
           </div>

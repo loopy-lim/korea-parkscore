@@ -17,3 +17,5 @@ export const nth = (d: number) => {
   if (remainder === 3) return "rd";
   return "th";
 };
+
+export const sum = (arr: number[]) => arr.reduce((acc, cur) => acc + cur, 0);

@@ -1,18 +1,18 @@
-import type { ScoreWithCity } from "../../dtos/score";
+import { clacScores } from "../../functions/scores";
 import { nth } from "../../functions/utils";
+import { useScore } from "../../stores/scores";
 import { CitySearch } from "./CitySearch";
 
-const description = `아래의 검색창을 통해 지역의 순위와 접근, 면적, 투자, 공평, 시설 지표의 점수를 확인할 수 있습니다`;
+const description =
+  "아래의 검색창을 통해 지역의 순위와 접근, 면적, 투자, 공평, 시설 지표의 점수를 확인할 수 있습니다";
 
-interface CityDescriptionProps {
-  selectedCityScore: ScoreWithCity;
-  rank: number;
-}
+export const CityDescription = () => {
+  const selectedCityIndex = useScore((state) => state.selectedCityIndex);
+  const realScores = useScore((state) => state.realScores);
+  const scorePercent = useScore((state) => state.scorePercent);
+  const scores = clacScores(realScores, scorePercent);
+  const selectedCityScore = scores[selectedCityIndex];
 
-export const CityDescription = ({
-  selectedCityScore,
-  rank,
-}: CityDescriptionProps) => {
   return (
     <div className="flex gap-4 items-center">
       <img
@@ -31,8 +31,8 @@ export const CityDescription = ({
           <div className="flex flex-col items-center">
             <h2 className="text-xl font-bold text-gray-400">RANKING</h2>
             <h3 className="font-extrabold flex justify-start">
-              <span className="text-3xl">{+rank + 1}</span>
-              <span className="text-xl">{nth(+rank + 1)}</span>
+              <span className="text-3xl">{+selectedCityIndex + 1}</span>
+              <span className="text-xl">{nth(+selectedCityIndex + 1)}</span>
             </h3>
           </div>
         </div>

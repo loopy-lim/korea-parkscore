@@ -2,14 +2,15 @@ import { create } from "zustand";
 import type { Score, ScoreWithCity } from "../dtos/score";
 import { subscribeWithSelector } from "zustand/middleware";
 import { defaultScores } from "../constants/scores";
+import { devtools } from "zustand/middleware";
 
 interface ScoreStore {
-  scores: Array<ScoreWithCity>;
+  realScores: Array<ScoreWithCity>;
   setScores: (by: Array<ScoreWithCity>) => void;
   scorePercent: Score;
   realScorePercent: Score;
   setScorePercent: (by: Score) => void;
-  resetScore: () => void;
+  setRealScorePercent: (by: Score) => void;
   selectedCityIndex: number;
   setSelectedCityIndex: (by: number) => void;
 }
@@ -22,31 +23,17 @@ const defaultScore: Score = {
   investment: 20,
 };
 
-const clacPercent = (score: Score) => {
-  const sum = Object.values(score).reduce((acc, cur) => acc + cur, 0);
-  return Object.fromEntries(
-    Object.entries(score).map(([key, value]) => [
-      key,
-      Math.round((value / sum) * 100),
-    ])
-  ) as unknown as Score;
-};
-
 export const useScore = create<ScoreStore>()(
-  subscribeWithSelector((set) => ({
-    scores: defaultScores,
-    setScores: (by) => set({ scores: by }),
-    scorePercent: defaultScore,
-    realScorePercent: defaultScore,
-    setScorePercent: (by) => {
-      set({ realScorePercent: by, scorePercent: clacPercent(by) });
-    },
-    resetScore: () =>
-      set({
-        scorePercent: defaultScore,
-        realScorePercent: defaultScore,
-      }),
-    selectedCityIndex: 0,
-    setSelectedCityIndex: (by) => set({ selectedCityIndex: by }),
-  }))
+  devtools(
+    subscribeWithSelector((set) => ({
+      realScores: defaultScores,
+      setScores: (by) => set({ realScores: by }),
+      scorePercent: defaultScore,
+      realScorePercent: defaultScore,
+      setRealScorePercent: (by) => set({ realScorePercent: by }),
+      setScorePercent: (by) => set({ scorePercent: by }),
+      selectedCityIndex: 0,
+      setSelectedCityIndex: (by) => set({ selectedCityIndex: by }),
+    }))
+  )
 );

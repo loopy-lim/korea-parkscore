@@ -1,7 +1,7 @@
 import { useRef, type MouseEvent } from "react";
-import style from "./index.module.scss";
 import type { Score } from "../../dtos/score";
 import { useScore } from "../../stores/scores";
+import { clacPercent } from "../../functions/scores";
 
 interface ScorePercentMarkerProps {
   keys: (keyof Score)[];
@@ -17,6 +17,7 @@ export const ScorePercentMarker = ({
   setDraggingMarkId,
 }: ScorePercentMarkerProps) => {
   const setScorePercent = useScore((state) => state.setScorePercent);
+  const setRealScorePercent = useScore((state) => state.setRealScorePercent);
   const realScorePercent = useScore((state) => state.realScorePercent);
   const mouseRef = useRef<number>(0);
 
@@ -39,11 +40,13 @@ export const ScorePercentMarker = ({
     const currentPercent = curent + delta;
     if (nextPercent < 0 || currentPercent < 0) return;
 
-    setScorePercent({
+    const percent = {
       ...realScorePercent,
       [keys[index]]: currentPercent,
       [keys[index + 1]]: nextPercent,
-    });
+    };
+    setScorePercent(clacPercent(percent));
+    setRealScorePercent(percent);
   };
 
   return (

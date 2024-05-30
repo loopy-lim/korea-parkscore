@@ -8,11 +8,13 @@ import { scoreColors } from "../../constants/color";
 import { scoreNames } from "../../constants/scores";
 import { TooltipWithIcon } from "../Tooltip";
 import { scoreWeight } from "../../constants/description";
+import { clacPercent } from "../../functions/scores";
 
 export const ScorePercentItem = () => {
   const scorePercent = useScore((state) => state.scorePercent);
   const realScorePercent = useScore((state) => state.realScorePercent);
   const setScorePercent = useScore((state) => state.setScorePercent);
+  const setRealScorePercent = useScore((state) => state.setRealScorePercent);
   const scoreBarRef = useRef<HTMLDivElement>(null);
   const [selfWidth, setSelfWidth] = useState(1);
   const [draggingMarkId, setDraggingMarkId] = useState("");
@@ -23,13 +25,15 @@ export const ScorePercentItem = () => {
   };
 
   const onReset = () => {
-    setScorePercent({
+    const percent = {
       access: realWidth() / 5,
       acreage: realWidth() / 5,
       amentities: realWidth() / 5,
       equity: realWidth() / 5,
       investment: realWidth() / 5,
-    });
+    };
+    setRealScorePercent(percent);
+    setScorePercent(clacPercent(percent));
   };
 
   useEffect(() => {
@@ -40,13 +44,15 @@ export const ScorePercentItem = () => {
   }, []);
 
   useEffect(() => {
-    setScorePercent({
+    const percent = {
       access: (realWidth() * scorePercent.access) / 100,
       acreage: (realWidth() * scorePercent.acreage) / 100,
       amentities: (realWidth() * scorePercent.amentities) / 100,
       equity: (realWidth() * scorePercent.equity) / 100,
       investment: (realWidth() * scorePercent.investment) / 100,
-    });
+    };
+    setRealScorePercent(percent);
+    setScorePercent(clacPercent(percent));
   }, [selfWidth]);
 
   useEffect(() => {

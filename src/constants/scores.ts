@@ -1,6 +1,6 @@
 import type { Score, ScoreWithCity } from "../dtos/score";
 
-export const maxListRow = 20;
+export const MAX_LIST_ROW = 20;
 
 export const scoreNames: Record<keyof Score, string> = {
   access: "접근",
@@ -22,7 +22,7 @@ export const defaultScores: Array<ScoreWithCity> = [
     },
   },
   {
-    city: "부산",
+    city: "부산광역시",
     score: {
       access: 95,
       acreage: 95,
@@ -32,7 +32,7 @@ export const defaultScores: Array<ScoreWithCity> = [
     },
   },
   {
-    city: "대구",
+    city: "대구광역시",
     score: {
       access: 90,
       acreage: 90,
@@ -42,7 +42,7 @@ export const defaultScores: Array<ScoreWithCity> = [
     },
   },
   {
-    city: "인천",
+    city: "인천광역시",
     score: {
       access: 85,
       acreage: 85,
@@ -52,7 +52,7 @@ export const defaultScores: Array<ScoreWithCity> = [
     },
   },
   {
-    city: "광주",
+    city: "광주광역시",
     score: {
       access: 80,
       acreage: 80,
@@ -62,7 +62,7 @@ export const defaultScores: Array<ScoreWithCity> = [
     },
   },
   {
-    city: "대전",
+    city: "대전광역시",
     score: {
       access: 75,
       acreage: 75,
@@ -72,7 +72,7 @@ export const defaultScores: Array<ScoreWithCity> = [
     },
   },
   {
-    city: "울산",
+    city: "울산광역시",
     score: {
       access: 60,
       acreage: 60,
