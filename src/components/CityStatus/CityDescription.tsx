@@ -19,7 +19,7 @@ export const CityDescription = () => {
     <div className="flex gap-4 items-center">
       <img
         className="min-w-36 min-h-36 rounded-2xl w-36 h-36"
-        src={`/public/city-logo/${selectedCityScore.city}.png`}
+        src={`/city-logo/${selectedCityScore.city}.png`}
         alt={`${selectedCityScore.city} 로고`}
       />
       <div className="flex flex-col gap-2">
