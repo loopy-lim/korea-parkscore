@@ -11,7 +11,9 @@ export const CityDescription = () => {
   const realScores = useScore((state) => state.realScores);
   const scorePercent = useScore((state) => state.scorePercent);
   const scores = clacScores(realScores, scorePercent);
-  const selectedCityScore = scores[selectedCityIndex];
+  const cityName = scores[selectedCityIndex].city;
+  const selectedCityScore =
+    realScores.find((score) => score.city === cityName) || realScores[0];
 
   return (
     <div className="flex gap-4 items-center">

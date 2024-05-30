@@ -21,13 +21,12 @@ export const ScoreList = () => {
   const [hoverCityIndex, setHoverCityIndex] = useState(-1);
   const scores = clacScores(realScores, scorePercent);
 
-  const maxScore = scores.reduce((acc, cur) => {
-    const curMax = Object.values(cur.score).reduce((acc, cur) => cur + acc, 0);
-    return acc > curMax ? acc : curMax;
-  }, 0);
-  const cities = scores.map((score) => score.city);
-
   useEffect(() => {
+    const maxScore = Math.max(
+      ...scores.map((score) => sum(getValues(score.score)))
+    );
+    const cities = scores.map((score) => score.city);
+
     const chart = d3
       .select(wapperRef.current)
       .append("svg")
@@ -42,10 +41,10 @@ export const ScoreList = () => {
       .attr("style", "max-width:100%; height:auto;");
 
     const scoreKeys = getKeys(scores[0].score) as string[];
+    const maxWidth = (wapperRef.current?.clientWidth || 0) - leftPadding;
     const layers = d3.stack().keys(scoreKeys)(
       scores
         .map((score) => {
-          const maxWidth = (wapperRef.current?.clientWidth || 0) - leftPadding;
           return scoreKeys.reduce((cur, key) => {
             const width = (score.score[key] / maxScore) * maxWidth;
             cur[key] = Math.round(width);
@@ -108,7 +107,7 @@ export const ScoreList = () => {
       .duration(300);
 
     // append score number circle
-    d3.select("svg")
+    chart
       .append("g")
       .selectAll("circle")
       .data(cities)
@@ -123,7 +122,7 @@ export const ScoreList = () => {
       .transition();
 
     // append score number
-    d3.select("svg")
+    chart
       .append("g")
       .selectAll("text")
       .data(cities)
