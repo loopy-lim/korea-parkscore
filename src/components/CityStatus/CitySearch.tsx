@@ -38,13 +38,11 @@ export const CitySearch = () => {
   };
 
   const onSearchResultClick = (searchKeyword: string) => () => {
-    setSearchWord(searchKeyword);
     setIsOnFocus(false);
-    showResult();
+    showResult(searchKeyword);
   };
 
-  const showResult = () => {
-    const city = searchResult[0] || searchWord;
+  const showResult = (city: string) => {
     setSearchWord("");
     setSearchResult([]);
     const scores = clacScores(realScores, scorePercent, Infinity);
@@ -54,7 +52,8 @@ export const CitySearch = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    showResult();
+    const city = searchResult[0] || searchWord;
+    showResult(city);
   };
 
   const onOutSideClick = (e: MouseEvent) => {
