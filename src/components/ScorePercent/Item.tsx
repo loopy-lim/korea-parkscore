@@ -91,7 +91,6 @@ export const ScorePercentItem = () => {
               className="absolute -top-12 w-[80px]"
               style={{
                 left: Math.min(realScorePercent[key] - 85, 0),
-                right: Math.max(realScorePercent[key] - 85, 0),
                 color: scoreColors[key],
               }}
             >
