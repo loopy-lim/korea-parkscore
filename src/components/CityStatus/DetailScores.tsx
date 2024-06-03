@@ -16,7 +16,7 @@ export const DetailScores = () => {
   const realScores = useScore((state) => state.realScores);
   const selectedCityIndex = useScore((state) => state.selectedCityIndex);
   const scorePercent = useScore((state) => state.scorePercent);
-  const scores = clacScores(realScores, scorePercent);
+  const scores = clacScores(realScores, scorePercent, Infinity);
   const cityName = scores[selectedCityIndex].city;
   const selectedCityScore =
     realScores.find((score) => score.city === cityName)?.score ||
@@ -35,7 +35,7 @@ export const DetailScores = () => {
   }, [ref.current]);
 
   return (
-    <ul className="flex flex-col gap-4 my-12" ref={ref}>
+    <ul className="flex flex-col gap-12 my-12" ref={ref}>
       <div className="uppercase font-bold text-3xl">scores</div>
       {getKeys(selectedCityScore).map((key) => (
         <li className="flex justify-center items-center" key={key}>

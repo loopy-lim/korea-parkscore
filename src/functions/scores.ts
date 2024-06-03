@@ -5,7 +5,8 @@ import { MAX_LIST_ROW } from "../constants/scores";
 
 export const clacScores = (
   realScores: Array<ScoreWithCity>,
-  scorePercent: Score
+  scorePercent: Score,
+  row = MAX_LIST_ROW
 ) => {
   return realScores
     .map((score) => ({
@@ -20,7 +21,7 @@ export const clacScores = (
       const bMax = sum(getValues(b.score));
       return bMax - aMax;
     })
-    .slice(0, MAX_LIST_ROW);
+    .slice(0, row);
 };
 
 export const clacPercent = (score: Score) => {

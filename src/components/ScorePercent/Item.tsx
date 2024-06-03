@@ -90,7 +90,6 @@ export const ScorePercentItem = () => {
             <div
               className="absolute -top-12 w-[80px]"
               style={{
-                left: Math.min(realScorePercent[key] - 85, 0),
                 color: scoreColors[key],
               }}
             >

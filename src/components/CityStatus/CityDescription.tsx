@@ -10,19 +10,19 @@ export const CityDescription = () => {
   const selectedCityIndex = useScore((state) => state.selectedCityIndex);
   const realScores = useScore((state) => state.realScores);
   const scorePercent = useScore((state) => state.scorePercent);
-  const scores = clacScores(realScores, scorePercent);
+  const scores = clacScores(realScores, scorePercent, Infinity);
   const cityName = scores[selectedCityIndex].city;
   const selectedCityScore =
     realScores.find((score) => score.city === cityName) || realScores[0];
 
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-8 items-center">
       <img
-        className="min-w-36 min-h-36 rounded-2xl w-36 h-36"
+        className="min-w-36 min-h-36 rounded-2xl w-40 h-40"
         src={`/city-logo/${selectedCityScore.city}.png`}
         alt={`${selectedCityScore.city} 로고`}
       />
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-8">
         <div className="flex justify-between">
           <div>
             <h2 className="text-xl font-bold text-gray-400">CITY</h2>
