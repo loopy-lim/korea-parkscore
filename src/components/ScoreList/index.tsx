@@ -142,7 +142,14 @@ export const ScoreList = () => {
     return () => {
       chart.remove();
     };
-  }, [scores, realScores, scorePercent, selectedCityIndex, hoverCityIndex]);
+  }, [
+    scores,
+    realScores,
+    scorePercent,
+    hoverCityIndex,
+    selectedCityIndex,
+    setSelectedCityIndex,
+  ]);
 
   return <div ref={wapperRef}></div>;
 };

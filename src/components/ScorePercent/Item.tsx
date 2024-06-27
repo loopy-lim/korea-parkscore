@@ -53,7 +53,16 @@ export const ScorePercentItem = () => {
     };
     setRealScorePercent(percent);
     setScorePercent(clacPercent(percent));
-  }, [selfWidth]);
+  }, [
+    selfWidth,
+    scorePercent.access,
+    scorePercent.acreage,
+    scorePercent.amentities,
+    scorePercent.equity,
+    scorePercent.investment,
+    setRealScorePercent,
+    setScorePercent,
+  ]);
 
   useEffect(() => {
     setSelfWidth(realWidth);

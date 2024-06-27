@@ -50,7 +50,7 @@ export const FileGetter = () => {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [setScore]);
 
   return (
     <>

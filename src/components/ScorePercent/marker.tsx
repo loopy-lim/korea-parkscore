@@ -58,7 +58,7 @@ export const ScorePercentMarker = ({
     >
       <img
         className="h-[2.6rem] min-h-[2.6rem] w-[2.6rem] min-w-[2.6rem]"
-        src="marker-slider.svg"
+        src="/marker-slider.svg"
         alt={`${keys[index]} mark`}
       />
     </button>

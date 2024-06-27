@@ -1,5 +1,5 @@
 import * as xlsx from "xlsx";
-import { ScoreWithCity, type Score } from "../dtos/score";
+import { ScoreWithCity } from "../dtos/score";
 
 interface ParkScoreBuffer {
   blob: ArrayBuffer | string;

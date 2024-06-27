@@ -32,7 +32,7 @@ export const DetailScores = () => {
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [ref.current]);
+  }, []);
 
   return (
     <ul className="flex flex-col gap-12 my-12" ref={ref}>
